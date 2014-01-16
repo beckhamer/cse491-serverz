@@ -13,6 +13,7 @@ print 'The Web server URL for this would be http://%s:%d/' % (host, port)
 
 s.listen(5)                 # Now wait for client connection.
 
+# @comment Might want to change the variable name, 'y', to something more descriptive
 y="""HTTP/1.0 200 OK
 Content-Type: text/html
 
