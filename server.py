@@ -23,3 +23,5 @@ while True:
     c.send('\r\n')
     c.send('<h1>Hello World</h1> This is rutowsk1\'s Web server.')
     c.close()
+# @ comments This program works well for me.
+
