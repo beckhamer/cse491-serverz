@@ -42,7 +42,7 @@ def handle_connection(conn):
 	elif request_path == '/favicon.ico':
 	    html_content = 'This is /favicon.ico page.'
     elif request_method == 'POST':
-	    html_content = 'This is POST request html.'
+	    html_content = 'This is POST request page.'
 	
     # send a response
     conn.send('HTTP/1.0 200 OK\r\n')
