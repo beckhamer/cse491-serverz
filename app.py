@@ -10,18 +10,6 @@ def path_render(path, query):
     return template.render(query).encode('latin-1', 'replace')
 
 def simple_app(environ, start_response):
-
-    # handle different path
-    path = {
-		'/'			: 'index.html',		\
-		'/content'		: 'content.html',	\
-		'/file'			: 'file.html',		\
-		'/image'		: 'image.html',		\
-		'/get_form'		: 'get_form.html',	\
-		'/form_default'		: 'form_default.html',	\
-		'/form_multipart'	:'form_multipart.html',	\
-		'/submit'		: 'submit.html',	\
-		}
     
     method = environ['REQUEST_METHOD']
     path = environ['PATH_INFO']
@@ -34,10 +22,12 @@ def simple_app(environ, start_response):
 	    return path_render('content.html', '')
 	elif path == '/file':
 	    start_response('200 OK', [('Content-type', 'text/html')])
-	    return path_render('file.html', '')
+#	    return path_render('file.html', '')
+	    return open_file('file.txt')
 	elif path == '/image':
-	    start_response('200 OK', [('Content-type', 'text/html')])
-	    return path_render('image.html', '')
+	    start_response('200 OK', [('Content-type', 'image/jpeg')])
+#	    return path_render('image.html', '')
+	    return open_file('image.jpg')
 	elif path == '/form':
 	    start_response('200 OK', [('Content-type', 'text/html')])
 	    return path_render('get_form.html', '')
@@ -73,6 +63,12 @@ def simple_app(environ, start_response):
 	else:
             start_response('404 Not Found', [('Content-type', 'text/html')])
             return path_render('error.html', '')
+
+def open_file(filename):
+  fp = open(filename, "rb")
+  data = fp.read();
+  fp.close()
+  return data
 
 def make_app():
     return simple_app
