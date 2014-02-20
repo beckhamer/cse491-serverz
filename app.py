@@ -1,4 +1,3 @@
-
 from urlparse import urlparse, parse_qs
 import jinja2
 import os
@@ -11,18 +10,6 @@ def path_render(path, query):
 
 def simple_app(environ, start_response):
 
-    # handle different path
-    path = {
-		'/'			: 'index.html',		\
-		'/content'		: 'content.html',	\
-		'/file'			: 'file.html',		\
-		'/image'		: 'image.html',		\
-		'/get_form'		: 'get_form.html',	\
-		'/form_default'		: 'form_default.html',	\
-		'/form_multipart'	:'form_multipart.html',	\
-		'/submit'		: 'submit.html',	\
-		}
-    
     method = environ['REQUEST_METHOD']
     path = environ['PATH_INFO']
     if method == 'GET':
