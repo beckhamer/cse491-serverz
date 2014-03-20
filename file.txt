@@ -1,1 +1,7 @@
-test file
+This is my text file.
+
+It's titled file.txt
+
+It's a part of MaxwellGBrown's cse491-serverz project.
+The content type is text/plain, because it's plain text
+and not hypertext. Which is booooooooring!
