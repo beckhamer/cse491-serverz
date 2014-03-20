@@ -7,19 +7,19 @@ from StringIO import StringIO
 import cgi
 import app
 
-#import quixote
+import quixote
 from quixote.demo import create_publisher
-#from quixote.demo.mini_demo import create_publisher
-#from quixote.demo.altdemo import create_publisher
+from quixote.demo.mini_demo import create_publisher
+from quixote.demo.altdemo import create_publisher
 
 
-#_the_app = None
-#def make_app():
-#    global _the_app
-#    if _the_app is None:
-#        p = create_publisher()
-#        _the_app = quixote.get_wsgi_app()
-#    return _the_app
+_the_app = None
+def make_app():
+    global _the_app
+    if _the_app is None:
+        p = create_publisher()
+        _the_app = quixote.get_wsgi_app()
+    return _the_app
 
 
 
@@ -57,7 +57,7 @@ def handle_connection(conn):
             conn.send(key + ': ' + header + '\r\n')
         conn.send('\r\n')
 
-    application = app.make_app()
+    application = make_app()
     response_html = application(environ, start_response)
 #    conn.send(response_html)
     for html in response_html:
