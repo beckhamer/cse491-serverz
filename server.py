@@ -1,52 +1,60 @@
+#!/usr/bin/env python
+import argparse
+from app import make_app
+import imageapp
+import os
+import quixote
+from quixote.demo.altdemo import create_publisher
 import random
 import socket
-import time
-import urlparse
-from mimetools import Message
 from StringIO import StringIO
-import cgi
-import app
+from sys import stderr
+import time
+from urlparse import urlparse
+from wsgiref.validate import validator
 
-#import quixote
-from quixote.demo import create_publisher
-#from quixote.demo.mini_demo import create_publisher
-#from quixote.demo.altdemo import create_publisher
+def handle_connection(conn, port):
+    request = conn.recv(1)
+    
+    if not request:
+        print 'Error, remote client closed connection without sending anything'
+        return
 
+    count = 0
+    env = {}
+    while request[-4:] != '\r\n\r\n':
+        request += conn.recv(1)
 
-#_the_app = None
-#def make_app():
-#    global _the_app
-#    if _the_app is None:
-#        p = create_publisher()
-#        _the_app = quixote.get_wsgi_app()
-#    return _the_app
+    request, data = request.split('\r\n',1)
+    headers = {}
+    for line in data.split('\r\n')[:-2]:
+        k, v = line.split(': ', 1)
+        headers[k.lower()] = v
 
+    path = urlparse(request.split(' ', 3)[1])
+    env['REQUEST_METHOD'] = 'GET'
+    env['PATH_INFO'] = path[2]
+    env['QUERY_STRING'] = path[4]
+    env['CONTENT_TYPE'] = 'text/html'
+    env['CONTENT_LENGTH'] = str(0)
+    env['SCRIPT_NAME'] = ''
+    env['SERVER_NAME'] = socket.getfqdn()
+    env['SERVER_PORT'] = str(port)
+    env['wsgi.version'] = (1, 0)
+    env['wsgi.errors'] = stderr
+    env['wsgi.multithread']  = False
+    env['wsgi.multiprocess'] = False
+    env['wsgi.run_once']     = False
+    env['wsgi.url_scheme'] = 'http'
+    env['HTTP_COOKIE'] = headers['cookie'] if 'cookie' in headers.keys() else ''
 
-
-
-def handle_connection(conn):
-    receive = conn.recv(2000)
-    request_headers, content= receive.split('\r\n\r\n',1)
-    raw_request, raw_headers= request_headers.split('\r\n',1)
-    headers = Message(StringIO(raw_headers))
-    request_method = raw_request.split()[0]
-    request_url = raw_request.split()[1]
-    parsed_url = urlparse.urlparse(request_url)
-    request_path = parsed_url.path
-
-    environ = {}
-    environ['REQUEST_METHOD'] = request_method
-    environ['PATH_INFO'] = request_path
-    environ['QUERY_STRING'] = parsed_url.query
-    environ['CONTENT_TYPE'] = 'text/html'
-    environ['CONTENT_LENGTH'] = 0
-    environ['SCRIPT_NAME'] = ''
-    environ['wsgi.input'] = StringIO(content)
-
-    if request_method == 'POST':
-        environ['CONTENT_TYPE'] = headers['Content-Type']
-        environ['CONTENT_LENGTH'] = headers['Content-Length']
- 	environ['wsgi.input'] = cgi.FieldStorage(fp=StringIO(content), headers=headers.dict, environ=environ)
+    body = ''
+    if request.startswith('POST '):
+        env['REQUEST_METHOD'] = 'POST'
+        env['CONTENT_LENGTH'] = headers['content-length']
+        env['CONTENT_TYPE'] = headers['content-type']
+        while len(body) < int(headers['content-length']):
+            body += conn.recv(1)
 
     def start_response(status, response_headers):
         conn.send('HTTP/1.0 ')
@@ -57,32 +65,88 @@ def handle_connection(conn):
             conn.send(key + ': ' + header + '\r\n')
         conn.send('\r\n')
 
-    application = app.make_app()
-    response_html = application(environ, start_response)
-#    conn.send(response_html)
-    for html in response_html:
-        conn.send(html)
+    env['wsgi.input'] = StringIO(body)
+    my_app = make_app()
+    validator_app = validator(my_app)
+    result = my_app(env, start_response)
+    for data in result:
+        conn.send(data)
     conn.close()
 
-def main():
-    s = socket.socket()         # Create a socket object
-    host = socket.getfqdn() # Get local machine name
-    port = random.randint(8000, 9999)
-    s.bind((host, port))        # Bind to the port
+def get_args():
+    app_list = ['altdemo', 'image', 'myapp', 'quotes', 'chat']
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-A', action="store",
+                              dest='arg_app',
+                              help="The application to run")
+    parser.add_argument('-p', action="store",
+                              default=0,
+                              dest='arg_port',
+                              help="The port to use (optional)",
+                              required=False,
+                              type=int)
 
-    print 'Starting server on', host, port
-    print 'The Web server URL for this would be http://%s:%d/' % (host, port)
+    results = parser.parse_args()
+    if results.arg_app not in app_list:
+       print '\nError, that application does not exist\n'
+       exit()
+    return results.arg_app, results.arg_port
 
-    s.listen(5)                 # Now wait for client connection.
-    
+def main(socketmodule=None):
+    if socketmodule is None:
+        socketmodule = socket
 
-    print 'Entering infinite loop; hit CTRL-C to exit'
-    while True:
-        # Establish connection with client.    
-        c, (client_host, client_port) = s.accept()
-        print 'Got connection from', client_host, client_port
+    app, port = get_args()
 
-        handle_connection(c)
+    if app == 'myapp':
+        s = socketmodule.socket()
+        host = socketmodule.getfqdn()
+        if port == 0:
+            port = random.randint(8000, 9999)
+        s.bind((host, port))
+        print 'Starting server on', host, port
+        print 'The Web server URL for this would be http://%s:%d/' % (host, port)
+        s.listen(5)
+        print 'Entering infinite loop; hit CTRL-C to exit'
+        while True:
+            c, (client_host, client_port) = s.accept()
+            print 'Got connection from', client_host, client_port
+            handle_connection(c, client_port)
+
+    elif app == 'image':
+        imageapp.setup()
+        p = imageapp.create_publisher()
+        wsgi_app = quixote.get_wsgi_app()
+        from wsgiref.simple_server import make_server
+        host = socketmodule.getfqdn()
+        if port == 0:
+            port = random.randint(8000, 9999)
+        httpd = make_server('', port, wsgi_app)
+        print 'Starting server on', host, port
+        print 'The Web server URL for this would be http://%s:%d/' % (host, port)
+        try:
+            httpd.serve_forever()
+        finally:
+            imageapp.teardown()       
+
+    elif app == 'altdemo':
+        p = create_publisher()
+        wsgi_app = quixote.get_wsgi_app()
+        from wsgiref.simple_server import make_server
+        host = socketmodule.getfqdn()
+        if port == 0:
+            port = random.randint(8000, 9999)
+        p.is_thread_safe = True
+        httpd = make_server('', port, wsgi_app)
+        print 'Starting server on', host, port
+        print 'The Web server URL for this would be http://%s:%d/' % (host, port)
+        httpd.serve_forever()
+
+    elif app in ('quotes', 'chat'):
+        if port == 0:
+            port = random.randint(8000, 9999)
+        os.chdir(app)
+        os.system("python2.7 %s-server %d" % (app, port))
 
 if __name__ == '__main__':
-   main()
+    main()
