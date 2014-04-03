@@ -9,8 +9,8 @@ import app
 
 import quixote
 from quixote.demo import create_publisher
-#from quixote.demo.mini_demo import create_publisher
-#from quixote.demo.altdemo import create_publisher
+from quixote.demo.mini_demo import create_publisher
+from quixote.demo.altdemo import create_publisher
 
 
 _the_app = None
