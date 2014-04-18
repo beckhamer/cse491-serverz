@@ -8,6 +8,7 @@ import cgi
 import app
 from wsgiref.validate import validator
 import imageapp
+import quixote
 
 imageapp.setup()
 p = imageapp.create_publisher()
