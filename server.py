@@ -45,7 +45,7 @@ def handle_connection(conn):
             conn.send(key + ': ' + header + '\r\n')
         conn.send('\r\n')
 
-    response_html = app.simple_app(environ, start_response)
+    response_html = app.make_app(environ, start_response)
     for data in response_html:
         conn.send(data)
     conn.close()
