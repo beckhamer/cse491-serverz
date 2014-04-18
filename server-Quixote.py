@@ -21,16 +21,17 @@ def make_app():
         _the_app = quixote.get_wsgi_app()
     return _the_app
 
-
-
-
 def handle_connection(conn):
-    receive = conn.recv(2000)
-    request_headers, content= receive.split('\r\n\r\n',1)
-    raw_request, raw_headers= request_headers.split('\r\n',1)
-    headers = Message(StringIO(raw_headers))
-    request_method = raw_request.split()[0]
-    request_url = raw_request.split()[1]
+    message = conn.recv(1)
+    while message[-4:] != '\r\n\r\n':
+        message += conn.recv(1)
+
+    request, headers = message.split('\r\n',1)
+    headers = Message(StringIO(headers))
+
+    request_method = request.split()[0]
+    request_url = request.split()[1]
+
     parsed_url = urlparse.urlparse(request_url)
     request_path = parsed_url.path
 
@@ -40,14 +41,15 @@ def handle_connection(conn):
     environ['QUERY_STRING'] = parsed_url.query
     environ['CONTENT_TYPE'] = 'text/html'
     environ['CONTENT_LENGTH'] = 0
-    environ['SCRIPT_NAME'] = ''
-    environ['wsgi.input'] = StringIO(content)
 
+    content = ''
     if request_method == 'POST':
+        while len(content) < int(headers['Content-Length']):
+            content += conn.recv(1)
         environ['CONTENT_TYPE'] = headers['Content-Type']
         environ['CONTENT_LENGTH'] = headers['Content-Length']
- 	environ['wsgi.input'] = cgi.FieldStorage(fp=StringIO(content), headers=headers.dict, environ=environ)
-
+        environ['wsgi.input'] = cgi.FieldStorage(fp=StringIO(content), headers=headers.dict, environ=environ)
+        
     def start_response(status, response_headers):
         conn.send('HTTP/1.0 ')
         conn.send(status)
@@ -59,9 +61,9 @@ def handle_connection(conn):
 
     application = make_app()
     response_html = application(environ, start_response)
-#    conn.send(response_html)
-    for html in response_html:
-        conn.send(html)
+    
+    for data in response_html:
+        conn.send(data)
     conn.close()
 
 def main():
