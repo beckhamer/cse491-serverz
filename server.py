@@ -62,7 +62,7 @@ def handle_connection(conn):
         query = urlparse.parse_qs(parsed_url.query)
         if query != {}:
             query = dict(firstname=query['firstname'][0], lastname=query['lastname'][0])
-    print query #'query:'+query['firstname'][0]+' '+query['lastname'][0]
+
     html_pages = {'/'                 :     'index.html',            \
                   '/content'          :     'content.html',          \
                   '/file'             :     'file.html',             \
