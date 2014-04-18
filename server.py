@@ -30,12 +30,12 @@ def handle_connection(conn):
 
     content = ''
     if request_method == 'POST':
+        while len(content) < int(headers['Content-Length']):
+            content += conn.recv(1)
         environ['CONTENT_TYPE'] = headers['Content-Type']
         environ['CONTENT_LENGTH'] = headers['Content-Length']
         environ['wsgi.input'] = cgi.FieldStorage(fp=StringIO(content), headers=headers.dict, environ=environ)
-        while len(content) < int(headers['Content-Length']):
-            content += conn.recv(1)
-
+        
     def start_response(status, response_headers):
         conn.send('HTTP/1.0 ')
         conn.send(status)
