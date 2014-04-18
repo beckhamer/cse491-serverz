@@ -46,9 +46,9 @@ def handle_connection(conn):
             conn.send(key + ': ' + header + '\r\n')
         conn.send('\r\n')
 
-    my_app = app.make_app()
-    validator_app = validator(my_app)
-    response_html = my_app(environ, start_response)
+    application = app.make_app()
+    validator_app = validator(application)
+    response_html = application(environ, start_response)
     for data in response_html:
         conn.send(data)
     conn.close()
