@@ -48,7 +48,8 @@ def handle_connection(conn):
             content += conn.recv(1)
         environ['CONTENT_TYPE'] = headers['Content-Type']
         environ['CONTENT_LENGTH'] = headers['Content-Length']
-        environ['wsgi.input'] = cgi.FieldStorage(fp=StringIO(content), headers=headers.dict, environ=environ)
+    
+    environ['wsgi.input'] = StringIO(content)
         
     def start_response(status, response_headers):
         conn.send('HTTP/1.0 ')
@@ -59,7 +60,7 @@ def handle_connection(conn):
             conn.send(key + ': ' + header + '\r\n')
         conn.send('\r\n')
 
-    application = app.make_app()
+    application = make_app()
     response_html = application(environ, start_response)
     
     for data in response_html:
