@@ -16,7 +16,7 @@ p = imageapp.create_publisher()
 def make_app():
     return quixote.get_wsgi_app()
 
-def handle_connection(conn):
+def handle_connection(conn, port):
     message = conn.recv(1)
     while message[-4:] != '\r\n\r\n':
         message += conn.recv(1)
@@ -36,6 +36,9 @@ def handle_connection(conn):
     environ['QUERY_STRING'] = parsed_url.query
     environ['CONTENT_TYPE'] = 'text/html'
     environ['CONTENT_LENGTH'] = 0
+    environ['SCRIPT_NAME'] = ''
+    environ['SERVER_NAME'] = socket.getfqdn()
+    environ['SERVER_PORT']       = str(port)
 
     content = ''
     if request_method == 'POST':
@@ -43,8 +46,8 @@ def handle_connection(conn):
             content += conn.recv(1)
         environ['CONTENT_TYPE'] = headers['Content-Type']
         environ['CONTENT_LENGTH'] = headers['Content-Length']
-        environ['wsgi.input'] = cgi.FieldStorage(fp=StringIO(content), headers=headers.dict, environ=environ)
-        
+    environ['wsgi.input'] = StringIO(content)
+
     def start_response(status, response_headers):
         conn.send('HTTP/1.0 ')
         conn.send(status)
@@ -79,7 +82,7 @@ def main():
         c, (client_host, client_port) = s.accept()
         print 'Got connection from', client_host, client_port
 
-        handle_connection(c)
+        handle_connection(c, port)
 
 if __name__ == '__main__':
    main()
