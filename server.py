@@ -66,16 +66,15 @@ def handle_connection(conn, port, app):
         conn.send(data)
     conn.close()
 
-def choose_app(app_name):
-    if app_name == 'altdemo':
+def choose_app(app):
+    if app == 'altdemo':
         p = create_publisher()
         return quixote.get_wsgi_app()
-    elif app_name == 'image':
+    elif app == 'image':
         imageapp.setup()
         p = imageapp.create_publisher()
         return quixote.get_wsgi_app()
-        pass
-    elif app_name == 'myapp':
+    elif app == 'myapp':
         return app.make_app()
 
 def main():
