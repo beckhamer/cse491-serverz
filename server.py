@@ -5,7 +5,7 @@ import urlparse
 from mimetools import Message
 from StringIO import StringIO
 import cgi
-import app
+from app import make_app
 from wsgiref.validate import validator
 import quixote
 from quixote.demo.altdemo import create_publisher
@@ -77,7 +77,7 @@ def choose_app(app):
         p = imageapp.create_publisher()
         return quixote.get_wsgi_app() 
     elif app == 'myapp':
-        return app.make_app()
+        return make_app()
     elif app == 'quotes': 
         return QuotesApp('./quotes/quotes.txt', './quotes/html')
     elif app == 'chat':
