@@ -46,7 +46,11 @@ def simple_app(environ, start_response):
                 query = parse_qs(environ['QUERY_STRING'])
                 query = dict(firstname=query['firstname'][0], lastname=query['lastname'][0])
             else:
-                query = dict(firstname=environ['wsgi.input']['firstname'].value, lastname=environ['wsgi.input']['lastname'].value)
+                headers = {}
+                headers['content-type'] = environ['CONTENT_TYPE']
+                headers['content-length'] = environ['CONTENT_LENGTH']
+                fs = cgi.FieldStorage(fp=environ['wsgi.input'], headers=headers, environ=environ)
+                query = dict(firstname=fs['firstname'].value, lastname=fs['lastname'].value)
         return path_render(html_pages[path], query)
 
     else:
