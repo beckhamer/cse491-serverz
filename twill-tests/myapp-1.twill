@@ -1,0 +1,31 @@
+go /
+code 200
+find "This is beckhamer's index page."
+
+follow content
+code 200
+find "This is beckhamer's content page."
+
+go /
+
+follow file
+code 200
+
+go /
+
+follow image
+code 200
+
+go /
+
+follow form
+code 200
+fv 1 firstname Tao
+fv 1 lastname Feng
+submit
+
+code 200
+find "Hello Mr. Tao Feng."
+
+go /404
+code 404
