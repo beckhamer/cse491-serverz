@@ -29,6 +29,7 @@
 2014-02-06 Tao Feng
 
  * Modify POST code handling code to properly handle requests that have a Content-Type of multipart/form-data.
+ * Modify send-post-request to send multipart/form-data.
  * Fix code to work with arbitrary size requests.
  * HTML and templating.
  * Modify code to return a “404 Not Found” status.
