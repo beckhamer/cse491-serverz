@@ -54,4 +54,3 @@ def handle_connection(conn):
 
 if __name__ == '__main__':
     main()
-sd
