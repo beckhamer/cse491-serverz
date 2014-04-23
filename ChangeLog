@@ -1,3 +1,22 @@
 2014-01-07  Titus Brown  <t@Titus-MacBook-Air-2.local>
 
  * Initialized repository, created server.py and README.
+ 
+2014-01-14  Tao Feng
+
+ * Modify the code to return an HTTP 1.0 response, 
+ * containing ‘200 OK’ response line, 
+ * a ‘Content-type’ of text/html, 
+ * and a message body saying ‘<h1>Hello, world<h1> this is beckhamer’s Web server.’
+
+2014-01-23 Tao Feng
+
+ * Update server.py code to grab the request data (use ‘c.recv(1000)’), 
+ * extract the ‘path’ component, and return different HTML content for the following request URLs:
+ * /
+ * /content
+ * /file
+ * /image
+ * Modify ‘/’ to return HTML that contains links to /content, /file, and /image.
+ * Mofify the handle_connection function to handle POST requests separately from GET.
+ * Add new file 'test_server.py' and pass all the tests.
