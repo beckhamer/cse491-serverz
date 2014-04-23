@@ -5,19 +5,19 @@
 2014-01-14  Tao Feng
 
  * Modify the code to return an HTTP 1.0 response, 
- * containing ‘200 OK’ response line, 
- * a ‘Content-type’ of text/html, 
- * and a message body saying ‘<h1>Hello, world<h1> this is beckhamer’s Web server.’
+ * containing '200 OK' response line, 
+ * a 'Content-type' of text/html, 
+ * and a message body saying '<h1>Hello, world<h1> this is beckhamer’s Web server.'
 
 2014-01-23 Tao Feng
 
- * Update server.py code to grab the request data (use ‘c.recv(1000)’), 
- * extract the ‘path’ component, and return different HTML content for the following request URLs:
+ * Update server.py code to grab the request data (use 'c.recv(1000)'), 
+ * extract the 'path' component, and return different HTML content for the following request URLs:
  * /
  * /content
  * /file
  * /image
- * Modify ‘/’ to return HTML that contains links to /content, /file, and /image.
+ * Modify '/' to return HTML that contains links to /content, /file, and /image.
  * Mofify the handle_connection function to handle POST requests separately from GET.
  * Add new file 'test_server.py' and pass all the tests.
 
@@ -32,12 +32,12 @@
  * Modify send-post-request to send multipart/form-data.
  * Fix code to work with arbitrary size requests.
  * HTML and templating.
- * Modify code to return a “404 Not Found” status.
+ * Modify code to return a "404 Not Found" status.
  * Check code coverage.
  
 2014-02-13 Tao Feng
 
- * Move all of content-creation code into ‘app.py’, and refactor it to look like a WSGI application.
+ * Move all of content-creation code into 'app.py', and refactor it to look like a WSGI application.
  * Refactor the handle_connection function to run WSGI apps.
  * Template inheritance and proper HTML using jinja2.
  
@@ -51,8 +51,8 @@
 2014-02-27 Tao Feng
 
  * Add cookie header handling into WSGI server.
- * Merge in ‘run-imageapp.py’ and the ‘imageapp/’ directory.
- * Modify the imageapp to display the latest image on the front (index) page, not just the ‘/image’ page.
+ * Merge in 'run-imageapp.py' and the 'imageapp/' directory.
+ * Modify the imageapp to display the latest image on the front (index) page, not just the '/image' page.
  
 2014-03-20 Tao Feng
 
