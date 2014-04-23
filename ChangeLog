@@ -20,3 +20,4 @@
  * Modify ‘/’ to return HTML that contains links to /content, /file, and /image.
  * Mofify the handle_connection function to handle POST requests separately from GET.
  * Add new file 'test_server.py' and pass all the tests.
+ 
