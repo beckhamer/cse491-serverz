@@ -1,9 +1,60 @@
-inclass exercise
-
-2014-01-16  Titus Brown  <t@Titus-MacBook-Air-2.local>
-
- * Added in simple HTTP response for HW 1.
-
 2014-01-07  Titus Brown  <t@Titus-MacBook-Air-2.local>
 
  * Initialized repository, created server.py and README.
+
+2014-01-14  Tao Feng
+
+ * Modify the code to return an HTTP 1.0 response, 
+ * containing ‘200 OK’ response line, 
+ * a ‘Content-type’ of text/html, 
+ * and a message body saying ‘<h1>Hello, world<h1> this is beckhamer’s Web server.’
+
+2014-01-23 Tao Feng
+
+ * Update server.py code to grab the request data (use ‘c.recv(1000)’), 
+ * extract the ‘path’ component, and return different HTML content for the following request URLs:
+ * /
+ * /content
+ * /file
+ * /image
+ * Modify ‘/’ to return HTML that contains links to /content, /file, and /image.
+ * Mofify the handle_connection function to handle POST requests separately from GET.
+ * Add new file 'test_server.py' and pass all the tests.
+
+2014-01-30 Tao Feng
+
+ * Update server.py code to parse form/GET and form/POST
+ * Modify main function to split different pages into different functions.
+ 
+2014-02-06 Tao Feng
+
+ * Modify POST code handling code to properly handle requests that have a Content-Type of multipart/form-data.
+ * Modify send-post-request to send multipart/form-data.
+ * Fix code to work with arbitrary size requests.
+ * HTML and templating.
+ * Modify code to return a “404 Not Found” status.
+ * Check code coverage.
+ 
+2014-02-13 Tao Feng
+
+ * Move all of content-creation code into ‘app.py’, and refactor it to look like a WSGI application.
+ * Refactor the handle_connection function to run WSGI apps.
+ * Template inheritance and proper HTML using jinja2.
+ 
+2014-02-20 Tao Feng
+
+ * In 'server.py', write a function that serves a file with the appropriate content-type (image/jpeg and text/plain).
+ * Add file.txt and image.jpg.
+ * 'server-Quixote.py' is to test WSGI server works with all three of the Quixote demo apps.
+ * Use the wsgiref validator to evaluate the WSGI app.
+ 
+2014-02-27 Tao Feng
+
+ * Add cookie header handling into WSGI server.
+ * Merge in ‘run-imageapp.py’ and the ‘imageapp/’ directory.
+ * Modify the imageapp to display the latest image on the front (index) page, not just the ‘/image’ page.
+ 
+2014-03-20 Tao Feng
+
+ * Implement command line options in 'server.py' to run the following WSGI apps: imageapp, quixote.demo.altdemo and myapp.
+ * Add twill-tests files and write a twill test 'myapp-1.twill' to execute all of the URLs and checks the return code (200).
