@@ -52,5 +52,6 @@ def handle_connection(conn):
     conn.send(html_content)
     conn.close()
 
+
 if __name__ == '__main__':
     main()
