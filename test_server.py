@@ -235,3 +235,5 @@ def test_handle_404():
     server.handle_connection(conn)
 
     assert conn.sent == expected_return, 'Got: %s' % (repr(conn.sent),)
+    
+    
