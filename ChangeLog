@@ -58,3 +58,7 @@
 
  * Implement command line options in 'server.py' to run the following WSGI apps: imageapp, quixote.demo.altdemo and myapp.
  * Add twill-tests files and write a twill test 'myapp-1.twill' to execute all of the URLs and checks the return code (200).
+
+ * Implement Project 4: support JPEG and TIFF format.
+ * In 'image.py', add another parameter 'format' in the function 'add_image'.
+ * In 'root.py', extract the file format using 'the_file.base_filename.split('.')[1]' and set the proper content type as img[1].
