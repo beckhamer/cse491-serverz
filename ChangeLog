@@ -62,7 +62,7 @@
  * Implement Project 4: support JPEG and TIFF format.
  * In 'image.py', add another parameter 'format' in the function 'add_image'.
  * In 'root.py', extract the file format using 'the_file.base_filename.split('.')[1]' and set the proper content type as img[1].
- * It's noted that Chrome and Firefox do not support TIFF format, but IE does. 
+ * It is noted that Chrome and Firefox do not support TIFF format, but IE does. 
  
 2014-03-27 Tao Feng
 
