@@ -55,5 +55,5 @@ class RootDirectory(Directory):
         return img[0]
 		
     @export(name='list')
-    def list(self):
+    def image_list(self):
         return html.render('list.html', {'total' : len(image.images)})
