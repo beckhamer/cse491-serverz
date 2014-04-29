@@ -72,8 +72,8 @@
  * Implement Project 5: Add a URL that provides a list of images, resized to thumbnails.
  * The URL is 'list.html' and the corresponding function 'image_list' is added in 'root.py'.
 
-2014-04-03
+2014-04-03 Tao Feng
 
- * Imlement Project 3: Swipe a template 'grapes.css' from oswd.org and put it in place on imageapp server.
+ * Implement Project 3: Swipe a template 'grapes.css' from oswd.org and put it in place on imageapp server.
 
- * Implemet Project 12: Implement AJAX image upload with in 'upload.html' with Javascript. 
+ * Implement Project 12: Implement AJAX image upload with in 'upload.html' with Javascript. 
