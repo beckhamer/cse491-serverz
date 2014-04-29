@@ -20,11 +20,20 @@ class RootDirectory(Directory):
         print request.form.keys()
 
         the_file = request.form['file']
+        fileFormat = the_file.base_filename.split('.')[1].lower()
+        if fileFormat in ['tiff', 'tif']:
+        	fileFormat = 'image/tiff'
+        elif fileFormat in ['jpeg', 'jpg']:
+        	fileFormat = 'image/jpg'
+        elif fileFormat in ['png']:
+            fileFormat = 'image/png'
+			
+        print 'received file of format: ' + fileFormat
         print dir(the_file)
         print 'received file with name:', the_file.base_filename
         data = the_file.read(int(1e9))
 
-        image.add_image(data)
+        image.add_image(data, fileFormat)
 
         return quixote.redirect('./')
 
@@ -35,6 +44,32 @@ class RootDirectory(Directory):
     @export(name='image_raw')
     def image_raw(self):
         response = quixote.get_response()
-        response.set_content_type('image/png')
-        img = image.get_latest_image()
-        return img
+        request = quixote.get_request()
+        number = request.form['special']
+
+        if(number == 'latest'):
+            img = image.get_latest_image()
+        else:
+            img = image.get_image(int(number))
+        response.set_content_type(img[1])     
+        return img[0]
+		
+    @export(name='list')
+    def image_list(self):
+        return html.render('list.html', {'total' : len(image.images)})
+
+    @export(name='bkgrnd.gif')
+    def body_jpg(self):
+        data = html.get_image('bkgrnd.gif')
+        return data
+
+    @export(name='grapes.jpg')
+    def content_jpg(self):
+        data = html.get_image('grapes.jpg')
+        return data
+
+    @export(name='quote.gif')
+    def footer_gif(self):
+        data = html.get_image('quote.gif')
+        return data
+

@@ -1,6 +1,4 @@
 # __init__.py is the top level file in a Python package.
-import os
-import sqlite3
 
 from quixote.publish import Publisher
 
@@ -15,31 +13,10 @@ def create_publisher():
  
 def setup():                            # stuff that should be run once.
     html.init_templates()
-    if not os.path.exists('images.sqlite'):
-        create_database()
+
+    some_data = open('imageapp/dice.png', 'rb').read()
+    image.add_image(some_data, 'png')
+    
 
 def teardown():                         # stuff that should be run once.
     pass
-
-def create_database():
-    db = sqlite3.connect('images.sqlite')
-    db.execute('CREATE TABLE image_store (i INTEGER PRIMARY KEY, filename VARCHAR(255), \
-        score INTEGER, image BLOB)');
-    db.execute('CREATE TABLE image_comments (i INTEGER PRIMARY KEY, imageId INTEGER, \
-     comment TEXT, FOREIGN KEY (imageId) REFERENCES image_store(i))');
-    db.commit()
-    db.close()
-
-def retrieve_all_images():
-    # connect to database
-    db = sqlite3.connect('images.sqlite')
-    
-    # configure to retrieve bytes, not text
-    db.text_factory = bytes
-
-    # get a query handle (or "cursor")
-    c = db.cursor()
-
-    # select all of the images
-    for row in c.execute('SELECT * FROM image_store ORDER BY i DESC'):
-        open(row[1], 'w').write(row[2])

@@ -1,119 +1,79 @@
-2014-02-24  Maxwell Brown
-
-* Added a server-imageapp.py to run imageapp
-* Changed index template of imageapp to show most recent image
-* Added arbitrary SCRIPT_NAME and SERVER_NAME for server-imageapp.py
-  Also added the same in server.py
-* Fixed some inconsistancies in the templates
-* Edited the README.txt to denote what the different server.py's do
-
-2014-02-19  Maxwell Brown
-
-* Added file opening function in app.py
-* Added file.txt and image.jpg for their respective files
-* Changed the returning of data in app.py; data builds
-  earlier rather than at the end
-
-2014-02-18  Maxwell Brown
-
-* Moved the fieldstorage to app.py from server.py
-* Added server-qx.py to check for standard WSGI compatability
-* Changed app.py to return a list/generator and server.py
-  to handle the return of a list/generator
-
-
-2014-02-11  Maxwell Brown
-
-* Added app.py and moved content creation from server.py to it
-* Refactored for environ dictionary
-* defined start_response inside handle_connection
-* added a base template and refactored old templates accordingly
-* added titles to all templates
-
-2014-02-06  Maxwell Brown
-
-* Changed server_tests.py to not be frustrating
-* Did heavy remodel of code based off of brtaylor92
-* Tried rendering with Jinja2, broke tests
-
-
-2014-02-05  Maxwell Brown
-
-* Added <p> tags to my html
-* Started making templates (/index, /file, and /image done)
-
-2014-02-04  Maxwell Brown
-
-* Now sort recv text with StringIO and FieldStorage
-* Store HTTP Headers in FieldStorage
-! Tried and failed to implement return HTML using FieldStorage
-
-2014-02-03  Maxwell Brown
-
-* Added docstrings for most functions 
-  (not the ones that returned long strings, to avoid confusion)
-* Implemented read_connection function to do block reading on 
-  connections with conn.recv
-? Created a handler in the server.py for the FakeConnection to handle
-  conn.settimeout(n). It works in the browser but not nosetests.
-? Created FakeConnection.timeout and FakeConnection.settimeout(n)
-  for the conn.settimeout(n) in read_connection(conn). Needed?
-* Initialized templates directory
-* Added 404 handling in server.py and server_tests.py
-
-2014-01-31  Maxwell Brown
-
-* Reorganized code and removed unneeded comments
-* Edited code to do conn.send in the page functions instead of
-  at the end of the handle_conn function. This allows for 
-  implementation of 404 handler, and easier flow of code
-  for hw4 changes.
-
-2014-01-30  Maxwell Brown
-
-* Removed the awful global vairalbes of host and port
-
-2014-01-27  Maxwell Brown
-
-* Split pages into seperate functions
-* Declared port and host as global functions to be accessed
-  in both the handle_connection and in main
-* Created /form and /submit pages, and their respective tests
-* Defined split_values to handle URL parsing for /form and /submit
-  and possibly future use
-* Enabled POST requests for /submit, and changed /form to a POST
-* CONCERN: Should the arguement for all the pages be the variables 
-           in dict form? Or should those be sorted out inside the
-           page function?
-
-2014-01-25  Maxwell Brown
-
-* Cloned hw3 branch
-
-2014-01-21  Maxwell Brown
-
-* Made seperate functions for test_server.py
-
-2014-01-20  Maxwell Brown
-
-* Cloned from hw1
-* Added main() and handle_connection(conn)
-* Added CTRL+C error handler (because it was bothering me)
-* Changed test_server.py from ctb to MaxwellGBrown
-* Fixed server.py from string errors
-* Added handlers for /, /content, /file, and /image
-* Made seperate handlers for GET and POST
-* Modified test_server.py to test all 4 GET and POST
-
-2014-01-20  Maxwell BRown
-
-* Changed string into variable passes
-
-2014-01-09  Maxwell Brown 
-
-* Added HTTP 1.0 response, Hello World to server.py
-* Added print c.recv(1000) to server.py
-
 2014-01-07  Titus Brown  <t@Titus-MacBook-Air-2.local>
 
  * Initialized repository, created server.py and README.
+
+2014-01-14  Tao Feng
+
+ * Modify the code to return an HTTP 1.0 response, 
+ * containing '200 OK' response line, 
+ * a 'Content-type' of text/html, 
+ * and a message body saying '<h1>Hello, world<h1> this is beckhamer’s Web server.'
+
+2014-01-23 Tao Feng
+
+ * Update server.py code to grab the request data (use 'c.recv(1000)'), 
+ * extract the 'path' component, and return different HTML content for the following request URLs:
+ * /
+ * /content
+ * /file
+ * /image
+ * Modify '/' to return HTML that contains links to /content, /file, and /image.
+ * Mofify the handle_connection function to handle POST requests separately from GET.
+ * Add new file 'test_server.py' and pass all the tests.
+
+2014-01-30 Tao Feng
+
+ * Update server.py code to parse form/GET and form/POST
+ * Modify main function to split different pages into different functions.
+ 
+2014-02-06 Tao Feng
+
+ * Modify POST code handling code to properly handle requests that have a Content-Type of multipart/form-data.
+ * Modify send-post-request to send multipart/form-data.
+ * Fix code to work with arbitrary size requests.
+ * HTML and templating.
+ * Modify code to return a "404 Not Found" status.
+ * Check code coverage.
+ 
+2014-02-13 Tao Feng
+
+ * Move all of content-creation code into 'app.py', and refactor it to look like a WSGI application.
+ * Refactor the handle_connection function to run WSGI apps.
+ * Template inheritance and proper HTML using jinja2.
+ 
+2014-02-20 Tao Feng
+
+ * In 'server.py', write a function that serves a file with the appropriate content-type (image/jpeg and text/plain).
+ * Add file.txt and image.jpg.
+ * 'server-Quixote.py' is to test WSGI server works with all three of the Quixote demo apps.
+ * Use the wsgiref validator to evaluate the WSGI app.
+ 
+2014-02-27 Tao Feng
+
+ * Add cookie header handling into WSGI server.
+ * Merge in 'run-imageapp.py' and the 'imageapp/' directory.
+ * Modify the imageapp to display the latest image on the front (index) page, not just the '/image' page.
+ 
+2014-03-20 Tao Feng
+
+ * Implement command line options in 'server.py' to run the following WSGI apps: imageapp, quixote.demo.altdemo and myapp.
+ * Add twill-tests files and write a twill test 'myapp-1.twill' to execute all of the URLs and checks the return code (200).
+
+ * Implement Project 4: support JPEG and TIFF format.
+ * In 'image.py', add another parameter 'format' in the function 'add_image'.
+ * In 'root.py', extract the file format using 'the_file.base_filename.split('.')[1]' and set the proper content type as img[1].
+ * It is noted that Chrome and Firefox do not support TIFF format, but IE does. 
+ 
+2014-03-27 Tao Feng
+
+ * Integrate the quotes app into 'server.py'.
+ * Integrate the chats app into 'server.py'.
+ 
+ * Implement Project 5: Add a URL that provides a list of images, resized to thumbnails.
+ * The URL is 'list.html' and the corresponding function 'image_list' is added in 'root.py'.
+
+2014-04-03
+
+ * Imlement Project 3: Swipe a template 'grapes.css' from oswd.org and put it in place on imageapp server.
+
+ * Implemet Project 12: Implement AJAX image upload with in 'upload.html' with Javascript. 
