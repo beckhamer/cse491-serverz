@@ -31,7 +31,7 @@ class ChatApp(object):
       for m in new_messages:
          x.append("""\
 <message>
- <timestamp>%f</timestamp>
+ <timestamp>%s</timestamp>
  <author>%s</author>
  <text>%s</text>
 </message>
@@ -61,6 +61,7 @@ class ChatApp(object):
          form = cgi.FieldStorage(fp=environ['wsgi.input'], environ=environ)
          last_time = float(form['last_time'].value)
 
+
          new_messages = self.get_messages_since(last_time)
          xml = self.format_response(new_messages, time.time())
 
@@ -74,6 +75,7 @@ class ChatApp(object):
 
          # retrieve submitted data
          last_time = float(form['last_time'].value)
+
          author = form['user'].value
          message = form['message'].value
 

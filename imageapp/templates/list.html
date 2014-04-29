@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-Here is your list of images:
+<b>Here are your images currently uploaded to the server: </b>
 <p>
-{% for i in range(0, total) %}
-    <img src='image_raw?special={{ i }}' width = '300px'/>
-	</br>
+{% for item in results %}
+	<img src='image_raw?special={{item["index"]}}' width='300px'> 
+	<ul type="square">
+		<li>Filename: {{item["name"]}}</li>
+		<li>Description: {{item["desc"]}}</li>
+	</ul>
 {% endfor %}
+</p>
 {% endblock %}

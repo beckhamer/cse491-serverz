@@ -70,10 +70,16 @@
  * Integrate the chats app into 'server.py'.
  
  * Implement Project 5: Add a URL that provides a list of images, resized to thumbnails.
- * The URL is 'list.html' and the corresponding function 'image_list' is added in 'root.py'.
+ * The URL is 'list.html' and the corresponding function 'image_list' is added in 'root.py'. 
 
-2014-04-03
+2014-04-03 Tao Feng
 
- * Imlement Project 3: Swipe a template 'grapes.css' from oswd.org and put it in place on imageapp server.
+ * Implement Project 3: Swipe a template 'grapes.css' from oswd.org and put it in place on imageapp server.
 
- * Implemet Project 12: Implement AJAX image upload with in 'upload.html' with Javascript. 
+ * Implement Project 12: Implement AJAX image upload with in 'upload.html' with Javascript. 
+
+2014-04-10 Tao Feng
+ * Integrate the cookie app into 'server.py'.
+ * Change imageapp to store its images in a SQL database.
+ 
+ * Implement Project 6 and 7 using sqlite database so that the 'metadata' of the image can be added and searched.

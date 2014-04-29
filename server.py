@@ -13,6 +13,7 @@ import imageapp
 import argparse
 import chat
 import quotes
+import cookieapp
 
 def handle_connection(conn, port, app):
     message = conn.recv(1)
@@ -82,7 +83,9 @@ def choose_app(app):
         return quotes.setup()
     elif app == 'chat':
         return chat.setup()
-
+    elif app == 'cookie':
+        return cookieapp.wsgi_app
+		
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-A', '--app', help='choose a app to run (image,altdemo,myapp)', default='myapp')

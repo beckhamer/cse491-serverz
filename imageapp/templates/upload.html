@@ -3,9 +3,11 @@
 {% block content %}
 Upload a PNG or JPEG or TIFF:
 
-<form name='form' enctype='multipart/form-data' action='upload_receive' method='POST'>
+<form id='fileform' enctype='multipart/form-data' action='upload_receive' method='POST'>
 Filename: <input type='file' name='file'><p>
-<input id='button' type='submit'>
+Image Name: <input type='text' name='name'><br>
+Image Description: <input type='text' name='description'><br>
+<input type='submit'>
 </form>
 
 <script>
@@ -30,4 +32,5 @@ window.onload = function(){
     }
 }
 </script>
+
 {% endblock %}
