@@ -33,7 +33,7 @@ class RootDirectory(Directory):
         print 'received file with name:', the_file.base_filename
         data = the_file.read(int(1e9))
 
-        image.add_image(data)
+        image.add_image(data, fileFormat)
 
         return quixote.redirect('./')
 
