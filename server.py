@@ -11,8 +11,8 @@ import quixote
 from quixote.demo.altdemo import create_publisher
 import imageapp
 import argparse
-from chat.apps import ChatApp
-from quotes.apps import QuotesApp
+import chat
+import quotes
 
 def handle_connection(conn, port, app):
     message = conn.recv(1)
@@ -79,9 +79,9 @@ def choose_app(app):
     elif app == 'myapp':
         return make_app()
     elif app == 'quotes': 
-        return QuotesApp('./quotes/quotes.txt', './quotes/html')
+        return quotes.setup()
     elif app == 'chat':
-        return ChatApp('./chat/html')
+        return chat.setup()
 
 def main():
     parser = argparse.ArgumentParser()
