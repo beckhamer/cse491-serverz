@@ -1,6 +1,11 @@
 # image handling API
 import sqlite3
+from PIL import ImageFile, Image
+import os
+from StringIO import StringIO
 
+ThumbnailSize = 70, 70
+DefaultThumbnail = "dice.png"
 image_number = 0
 
 def add_image(data, format, name, description):
@@ -87,3 +92,30 @@ def search(name, description):
         images['results'].append(result)
     db.close()
     return images
+
+def generate_thumbnail(data):
+    p = ImageFile.Parser()
+    img = None
+    try:
+        p.feed(data)
+        img = p.close()
+    except IOError:
+        print "Cannot generate image thumbnail"
+
+    if img == None:
+        dirname = os.path.join(os.path.dirname(__file__),"")
+        thumbnail_path = os.path.join(dirname, DefaultThumbnail)
+        return open(thumbnail_path, 'rb').read()
+    else:
+        fp = StringIO()
+        img.thumbnail(ThumbnailSize, Image.ANTIALIAS)
+        img.save(fp, format="PNG")
+        fp.seek(0)
+        return fp.read()
+
+def get_image_count():
+    db = sqlite3.connect('images.sqlite')
+    c = db.cursor()
+    c.execute('SELECT COUNT(*) FROM image_store')
+    imageCount = c.fetchone()
+    return imageCount[0]

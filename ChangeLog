@@ -83,3 +83,9 @@
  * Change imageapp to store its images in a SQL database.
  
  * Implement Project 6 and 7 using sqlite database so that the 'metadata' of the image can be added and searched.
+
+2014-04-17 Tao Feng
+ * Implement Project 22: Make a thumbnail list using server-side resizing using PIL.
+
+ * Implement Project 23: Write a URL handler so that each image is referred to by its number, e.g. /image_raw?id=1
+ * If 'id' is out of range, it will redirect to the latest image.

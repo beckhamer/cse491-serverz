@@ -46,11 +46,24 @@ class RootDirectory(Directory):
     def image_raw(self):
         response = quixote.get_response()
         request = quixote.get_request()
-        number = request.form['special']
-        if(number == 'latest'):
-            img = image.get_latest_image()
-        else:
-            img = image.get_image(int(number))
+
+        if 'special' in request.form.keys():
+            number = request.form['special']
+            if number == 'latest':
+                img = image.get_latest_image()
+            else:
+                img = image.get_image(int(number))
+        if 'id' in request.form.keys():
+            try:
+                number = int(request.form['id'])
+            except ValueError:
+                print 'input number is not a valid number!'
+                number = image.get_image_count()
+            if number not in range(0, image.get_image_count()):
+                img = image.get_latest_image()
+            else:
+                img = image.get_image(number)
+       
         response.set_content_type(img[1])     
         return img[0]
 
@@ -70,7 +83,30 @@ class RootDirectory(Directory):
         description = response.form['description']		
     	results = image.search(name, description)
     	return html.render('result.html', results)
-		
+
+    @export(name='viewThumb')
+    def viewThumb(self):
+        request = quixote.get_request()
+        response = quixote.get_response()
+        the_int = int(request.form['i'])
+        results = {"image": the_int}
+        return html.render('viewThumb.html', results)
+
+    @export(name='thumbnails')
+    def thumbnails(self):
+        results = image.get_all_images()
+        return html.render('thumbnails.html', results )
+    
+    @export(name='get_thumbnail')
+    def get_thumb(self):
+        request = quixote.get_request()
+        response = quixote.get_response()        
+        the_int = int(request.form['special'])
+        img = image.get_image(the_int)
+        thumb = image.generate_thumbnail(img[0])
+        response.set_content_type('image/png')        
+        return thumb
+
     @export(name='bkgrnd.gif')
     def body_jpg(self):
         data = html.get_image('bkgrnd.gif')
