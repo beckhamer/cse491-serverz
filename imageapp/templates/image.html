@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-Here is your image:
+<b>Here is your image:</b>
 <p>
-<img width=40% src='image_raw?special=latest'/>
-
+<img width=40% src='image_raw?id={{ id }}'/>
+<br>Name:{{ name }}
+<br>Description: {{ description }}
+<br>Comments:
+<ul>
+{% for comment in comments %}
+<li>
+    <h2>{{ comment }}</h2>
+</li>
+{% endfor %}
+</ul><br><br>
+<form action='add_comment?id={{ id }}' method='POST' id='commentForm'>
+    New Comment:<br>
+    <textarea rows="4" cols="50" name='comment' form='commentForm'>Enter text here...</textarea><br>
+    <input type='submit'>
+</form>
 {% endblock %}

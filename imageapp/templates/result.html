@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<b>Search Results:</b>
+</br>
+{% if results %}
+{% for img in results %}
+<img src='image_raw?id={{img["index"]}}' width='300px'>
+<ul type="square">
+<li>Filename: {{img["name"]}}</li>
+<li>Description: {{img["desc"]}}</li>
+</ul>
+{% endfor %}
+{% else %} 
+<p> Sorry, no images match your input! </p>
+{% endif %}
+
+{% endblock %}

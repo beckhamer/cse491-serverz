@@ -2,12 +2,33 @@
 <html>
  <head>
   <meta http-equiv="Content-Type" content="text/html">
-  <style type="text/css">
-  {% include "style.css" %}
-  </style>
+  <style type="text/css">{% include "grapes.css" %}</style>
  </head>
- <body>
-{% block content %}
-{% endblock %}
- </body>
+
+  <body>
+    <div id="container">
+      <div id="hdr">
+        <h1>grapes</h1>
+        <p id="tagline">fruit, wine &amp; web design</p>
+      </div>
+      <div id="lftcol">
+        <ul id="nav">
+          <li><a href='upload'>Upload an image</a></li>
+          <li><a href='image'>Show most recent image</a></li>
+          <li><a href='list'>Show list of images</a></li>
+          <li><a href='search'>Search images</a></li>
+	  <li><a href='thumbnails'>Thumbnail list</a></li>
+        </ul>
+        <div id="quote">
+          <p><em>A nice web design for MSU CSE 491...</em></p>
+        </div>
+      </div>
+      <div id="rgtcol">
+       {% block content %}
+       {% endblock %}
+      </div>
+      <div id="bttmbar">Copyright &copy; Tao Feng</div>
+    </div>
+  </body>
+
 </html>

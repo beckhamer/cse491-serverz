@@ -35,12 +35,11 @@ $(document).ready(function() {
      $("message", xml).each( function(id) {
         message = $("message", xml).get(id);
 
-	time = $("time", message).text(); 
-	
         author = $("author", message).text();
+        timestamp = $("timestamp", message).text();
         content = $("text", message).text();
 
-        $("#messagewindow").prepend(time + " <b>" + author + "</b>:" + content 
+        $("#messagewindow").prepend("<b>" + author + " (" + timestamp + ")" + "</b>" + content 
                                     + "<br>");
      });
   };

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<b>Search Image by Name or Description:</b>
+<form action='result' method='POST'>
+<table>
+  <tr>
+    <td><br>Name:</br></td>
+    <td><input type='text' name='name'></td>
+  </tr>
+  <tr>
+    <td><br>Description:</br></td>
+    <td><input type='text' name='description'></td>
+  </tr>
+  <tr>
+    <td><input type='submit'></td>
+    <td></td>
+  </tr>
+</table>
+</form>
+
+{% endblock %}

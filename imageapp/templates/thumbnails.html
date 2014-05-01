@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<b>Thumbnail list: </b>
+</br>
+<table border=0 cellspacing=10>
+  {% for img in results %}
+    {% if loop.index0 is divisibleby 3 or loop.first %}
+    <tr>
+    {% endif %}
+      <td id="thumb">
+        <a href=image?id={{ img['index'] }}>
+          <img src='get_thumbnail?id={{img["index"]}}'>
+        </a>
+      </td>
+    {% if (loop.index0+1) is divisibleby 3 or loop.last %}
+    </tr>
+    {% endif %}
+  {% endfor %}
+</table>
+Click on image to view full size!
+{% endblock %}

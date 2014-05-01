@@ -1,10 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-Upload a PNG:
+<b>Upload a PNG or JPEG or TIFF:</b>
 
-<form enctype='multipart/form-data' action='upload_receive' method='POST'>
-Filename: <input type='file' name='file'><p>
-<input type='submit'>
+<form id='fileform' enctype='multipart/form-data' action='upload_receive' method='POST'>
+<table>
+  <tr>
+    <td>
+      <br>Filename:</br>
+    </td>
+    <td>
+      <input type='file' name='file'>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <br>Image Name:</br>
+    </td>
+    <td>
+      <input type='text' name='name'>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <br>Image Description: </br>
+    </td>
+    <td>
+      <input type='text' name='description'>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type='submit'>
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
 </form>
+
+<script>
+window.onload = function(){
+    var btn = document.getElementById('button');
+    btn.onclick = function(ev){
+        var the_form = document.forms.namedItem('form');
+        alert('clicked!');
+        var fd = new FormData(the_form);
+        var request = new XMLHttpRequest();
+        request.open("POST", "upload_receive", true);
+        request.onload = function(event) {
+            if (request.status == 200){
+                alert('uploaded!');
+                window.location = "/";
+            } else {
+                alert('upload failed :(');
+            }
+        }
+        request.send(fd);
+        ev.preventDefault();
+    }
+}
+</script>
+
 {% endblock %}
