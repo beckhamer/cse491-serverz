@@ -4,13 +4,13 @@
 <b>Thumbnail list: </b>
 </br>
 <table border=0 cellspacing=10>
-  {% for i in results %}
+  {% for img in results %}
     {% if loop.index0 is divisibleby 3 or loop.first %}
     <tr>
     {% endif %}
       <td id="thumb">
-        <a href=viewThumb?i={{ i['index'] }}>
-          <img src='get_thumbnail?special={{i["index"]}}'>
+        <a href=image?id={{ img['index'] }}>
+          <img src='get_thumbnail?id={{img["index"]}}'>
         </a>
       </td>
     {% if (loop.index0+1) is divisibleby 3 or loop.last %}

@@ -89,3 +89,10 @@
 
  * Implement Project 23: Write a URL handler so that each image is referred to by its number, e.g. /image_raw?id=1
  * If 'id' is out of range, it will redirect to the latest image.
+
+2014-04-24 Tao Feng
+ * Implement Project 8: Add the ability to comment on images.
+
+ * Implement Project 24: Make a generally useful fake data set to support #6.
+
+ * 10 projects implemented are 3, 4, 5, 6, 7, 8, 12, 22, 23, 24.

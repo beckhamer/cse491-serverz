@@ -1,13 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-Upload a PNG or JPEG or TIFF:
+<b>Upload a PNG or JPEG or TIFF:</b>
 
 <form id='fileform' enctype='multipart/form-data' action='upload_receive' method='POST'>
-Filename: <input type='file' name='file'><p>
-Image Name: <input type='text' name='name'><br>
-Image Description: <input type='text' name='description'><br>
-<input type='submit'>
+<table>
+  <tr>
+    <td>
+      <br>Filename:</br>
+    </td>
+    <td>
+      <input type='file' name='file'>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <br>Image Name:</br>
+    </td>
+    <td>
+      <input type='text' name='name'>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <br>Image Description: </br>
+    </td>
+    <td>
+      <input type='text' name='description'>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type='submit'>
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
 </form>
 
 <script>

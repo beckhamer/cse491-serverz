@@ -5,14 +5,15 @@
 <b>Search Results:</b>
 </br>
 {% if results %}
-	{% for image in results %}
-		<img src='image_raw?special={{image["index"]}}' width='300px'>
-		<ul type="square">
-			<li>Filename: {{image["name"]}}</li>
-			<li>Description: {{image["desc"]}}</li>
-		</ul>
-	{% endfor %}
-{% else %} <p> Sorry, no images match your input! </p>
+{% for img in results %}
+<img src='image_raw?id={{img["index"]}}' width='300px'>
+<ul type="square">
+<li>Filename: {{img["name"]}}</li>
+<li>Description: {{img["desc"]}}</li>
+</ul>
+{% endfor %}
+{% else %} 
+<p> Sorry, no images match your input! </p>
 {% endif %}
 
 {% endblock %}

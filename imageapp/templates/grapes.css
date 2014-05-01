@@ -59,7 +59,13 @@ background: transparent;
 overflow: hidden
 }
 
-#rgtcol {float: right; width: 370px; padding-bottom: 30px; background: transparent; overflow: hidden}  /* right column */
+#rgtcol {
+float: right; 
+width: 370px;
+min-height: 300px; 
+padding-bottom: 30px; 
+background: transparent; 
+overflow: hidden}  /* right column */
 
 #bttmbar {float: right; text-align: center; font-size: 0.70em; height: 4em; line-height: 4em; width: 570px; background: #CCCC33; border-top: 1px solid #D9D93C}
 

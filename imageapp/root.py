@@ -8,8 +8,10 @@ class RootDirectory(Directory):
 
     @export(name='')                    # this makes it public.
     def index(self):
-        img = image.get_latest_image()
-        return html.render('index.html', {'name' : img[2], 'description' : img[3]})
+        number = image.get_image_count()-1
+        img = image.get_image(number)
+        comments = image.get_comments(number)
+        return html.render('index.html', {'name' : img[2], 'description' : img[3], 'comments' : comments, 'id' : number})
 
     @export(name='upload')    
     def upload(self):
@@ -39,31 +41,35 @@ class RootDirectory(Directory):
 
     @export(name='image')
     def image(self):
-        img = image.get_latest_image()
-        return html.render('image.html', {'name' : img[2], 'description' : img[3]})
+        request = quixote.get_request()
+        if 'id' in request.form.keys():
+            try:
+                number = int(request.form['id'])
+            except ValueError:
+                print 'not a valid number!'
+                number = image.get_image_count()-1
+        else:
+            number = image.get_image_count()-1
+        img = image.get_image(number)
+        comments = image.get_comments(number)
+        return html.render('image.html', {'name' : img[2], 'description' : img[3], 'comments' : comments, 'id': number})
 
     @export(name='image_raw')
     def image_raw(self):
         response = quixote.get_response()
         request = quixote.get_request()
 
-        if 'special' in request.form.keys():
-            number = request.form['special']
-            if number == 'latest':
-                img = image.get_latest_image()
-            else:
-                img = image.get_image(int(number))
         if 'id' in request.form.keys():
             try:
                 number = int(request.form['id'])
             except ValueError:
                 print 'input number is not a valid number!'
-                number = image.get_image_count()
+                number = image.get_image_count() - 1
             if number not in range(0, image.get_image_count()):
-                img = image.get_latest_image()
-            else:
-                img = image.get_image(number)
-       
+                number = image.get_image_count() - 1
+        else:
+            number = image.get_image_count() - 1
+        img = image.get_image(number)       
         response.set_content_type(img[1])     
         return img[0]
 
@@ -84,14 +90,6 @@ class RootDirectory(Directory):
     	results = image.search(name, description)
     	return html.render('result.html', results)
 
-    @export(name='viewThumb')
-    def viewThumb(self):
-        request = quixote.get_request()
-        response = quixote.get_response()
-        the_int = int(request.form['i'])
-        results = {"image": the_int}
-        return html.render('viewThumb.html', results)
-
     @export(name='thumbnails')
     def thumbnails(self):
         results = image.get_all_images()
@@ -101,11 +99,20 @@ class RootDirectory(Directory):
     def get_thumb(self):
         request = quixote.get_request()
         response = quixote.get_response()        
-        the_int = int(request.form['special'])
-        img = image.get_image(the_int)
+        number = int(request.form['id'])
+        img = image.get_image(number)
         thumb = image.generate_thumbnail(img[0])
         response.set_content_type('image/png')        
         return thumb
+
+    @export(name='add_comment')
+    def add_comment(self):
+        response = quixote.get_response()
+        request = quixote.get_request()
+        number = request.form['id']
+        comment = request.form['comment']
+        image.add_comment(number, comment)
+        return quixote.redirect('./image?id='+str(number))
 
     @export(name='bkgrnd.gif')
     def body_jpg(self):

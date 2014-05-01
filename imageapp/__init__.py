@@ -22,6 +22,7 @@ def create_table():
     db = sqlite3.connect('images.sqlite')
     db.execute('CREATE TABLE IF NOT EXISTS image_store \
 	            (num INTEGER PRIMARY KEY, image BLOB, format TEXT, name TEXT, description TEXT)');
+    db.execute('CREATE TABLE IF NOT EXISTS image_comment (imageId INTEGER, comment TEXT)');
     some_data = open('imageapp/dice.png', 'rb').read()
     image.add_image(some_data, 'png', 'Dice', 'Nice dice!')    
     db.commit()

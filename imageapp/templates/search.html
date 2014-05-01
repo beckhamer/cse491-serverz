@@ -2,11 +2,22 @@
 
 {% block content %}
 
-Search Image by Name or Description:
+<b>Search Image by Name or Description:</b>
 <form action='result' method='POST'>
-Name: <input type='text' name='name'><br>
-Description: <input type='text' name='description'><br>
-<input type='submit'>
+<table>
+  <tr>
+    <td><br>Name:</br></td>
+    <td><input type='text' name='name'></td>
+  </tr>
+  <tr>
+    <td><br>Description:</br></td>
+    <td><input type='text' name='description'></td>
+  </tr>
+  <tr>
+    <td><input type='submit'></td>
+    <td></td>
+  </tr>
+</table>
 </form>
 
 {% endblock %}

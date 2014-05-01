@@ -3,12 +3,12 @@
 {% block content %}
 <b>Here are your images currently uploaded to the server: </b>
 <p>
-{% for item in results %}
-	<img src='image_raw?special={{item["index"]}}' width='300px'> 
-	<ul type="square">
-		<li>Filename: {{item["name"]}}</li>
-		<li>Description: {{item["desc"]}}</li>
-	</ul>
+{% for img in results %}
+  <img src='image_raw?id={{img["index"]}}' width='300px'> 
+  <ul type="square">
+    <li>Filename: {{img["name"]}}</li>
+    <li>Description: {{img["desc"]}}</li>
+  </ul>
 {% endfor %}
 </p>
 {% endblock %}
